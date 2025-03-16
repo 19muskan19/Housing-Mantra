@@ -79,27 +79,27 @@ export default function AmenitiesUploader() {
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
   };
-  
+
   const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
-  
+
     const files = event.dataTransfer.files;
     if (!files || files.length === 0) return;
-  
+
     const newImages = Array.from(files).map((file) => {
       const fileUrl = URL.createObjectURL(file);
       return {
-        id: fileUrl, 
-        src: fileUrl, 
+        id: fileUrl,
+        src: fileUrl,
         description: "",
         isPrimary: images.length === 0,
       };
     });
-  
+
     setImages((prevImages) => [...prevImages, ...newImages]);
     setError(null);
   };
-  
+
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -140,219 +140,217 @@ export default function AmenitiesUploader() {
   };
 
 
-    return (
-      <div className="mx-auto p-6 max-w-4xl">
-        <h2 className="text-xl font-semibold">Update Amenities</h2>
-        <p className="text-gray-500">Fill out the amenities below about this new project</p>
-    
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-          <div className="h-2 bg-red-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
-        </div>
-        <p className="text-right text-sm text-gray-500 mt-1">{Math.round(progress)}% Complete</p>
-    
-        <div className="flex justify-between items-center my-4">
-          <h2 className="text-lg font-semibold">Amenities</h2>
-          <button onClick={toggleSelectAll} className="flex items-center space-x-2">
-            {selectedAmenities.length === amenitiesList.length ? (
-              <>
-                <FaCheckCircle className="text-red-500" /> <span>Unselect All</span>
-              </>
-            ) : (
-              <>
-                <FaRegCircle className="text-gray-500" /> <span>Select All</span>
-              </>
-            )}
-          </button>
-        </div>
-   {/* Responsive Amenities Grid */}
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-  {amenitiesList.map((amenity) => (
-    <button
-      key={amenity}
-      onClick={() => handleAmenityClick(amenity)}
-      className="flex items-center space-x-2 text-left w-full"
-    >
-      {selectedAmenities.includes(amenity) ? (
-        <FaCheckCircle className="text-red-500" />
-      ) : (
-        <FaRegCircle className="text-gray-500" />
-      )}
-      <span className="flex-1">{amenity}</span>
-    </button>
-  ))}
-</div>
+  return (
+    <div className="mx-auto p-6 max-w-4xl">
+      <h2 className="text-xl font-semibold">Update Amenities</h2>
+      <p className="text-gray-500">Fill out the amenities below about this new project</p>
 
-
-    
-        {/* Image Upload Section */}
-        <h2 className="text-xl font-semibold mb-2 mt-6">Images</h2>
-        <label
-          className="border border-gray-300 border-dashed rounded-lg flex flex-col items-center justify-center py-10 cursor-pointer hover:bg-gray-100 w-full"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
-          <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" />
-          <p className="text-gray-500 text-center">Click or drag images here to upload</p>
-        </label>
-    
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-    
-        {images.length > 0 && (
-  <div className="mt-6 w-full">
-    <h3 className="text-lg font-semibold">Uploaded Images</h3>
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
-      {images.map((image) => (
-        <div key={image.id} className="relative border rounded-lg p-3">
-          {/* Delete Button */}
-          <button 
-            onClick={() => handleDeleteImage(image.id)} 
-            className="absolute top-2 right-2 rounded-full shadow-md p-1 text-gray-700 cursor-pointer"
-          >
-            ✕
-          </button>
-
-          {/* Image Preview */}
-          <Image 
-            src={image.src} 
-            alt="Uploaded preview" 
-            width={150} 
-            height={150} 
-            className="rounded-md w-full h-32 object-cover" 
-          />
-
-          {/* Labels Row */}
-          <div className="flex items-center justify-between mt-2">
-            <label className="text-sm font-medium text-gray-700 ">Description</label>
-            <label className="text-sm font-medium text-gray-700">Set Primary</label>
-          </div>
-
-          {/* Input & Toggle Row */}
-          <div className="flex items-center mt-1">
-            <input
-              type="text"
-              placeholder="Write a description..."
-              value={image.description}
-              onChange={(e) => handleDescriptionChange(image.id, e.target.value)}
-              className="w-3/4 border rounded-md p-1 text-sm focus:border-red-500 focus:outline-none"
-/>
-
-            <div 
-              className={`relative w-10 h-5 flex items-center rounded-full cursor-pointer transition-all duration-300 ml-2 ${
-                image.isPrimary ? 'bg-red-500' : 'bg-gray-300'
-              }`}
-              onClick={() => handleSetPrimary(image.id)}
-            >
-              <div 
-  className={`absolute left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-150 ${
-    image.isPrimary ? 'translate-x-5' : ''
-  }`}
-></div>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
-
-    
-       {/* Additional Fields Section */}
-<div className="pt-6 w-full mt-6">
-  {/* YouTube URLs Section */}
-  <label className="block text-sm font-medium text-gray-700">
-  YouTube URLs
-</label>
-{youtubeLinks.map((link, index) => (
-  <input
-    key={index}
-    type="text"
-    value={link}
-    onChange={(e) => handleYoutubeChange(index, e.target.value)}
-    placeholder="Enter YouTube link"
-    className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
-  />
-))}
-<button
-  onClick={addYoutubeField}
-  className="mt-2 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm w-full sm:w-auto"
->
-  Add another URL
-</button>
-
-
-  {/* RERA Registration Section */}
-  <div className="mt-4 p-4 border border-gray-300 rounded-md w-full">
-    <label className="block text-sm font-medium text-gray-700">
-      Is the project RERA registered?
-    </label>
-    <div className="mt-2 flex flex-wrap gap-4">
-      <label className="flex items-center">
-        <input
-          type="radio"
-          value="yes"
-          checked={isReraRegistered}
-          onChange={() => setIsReraRegistered(true)}
-          className="peer hidden"
-        />
-        <span className="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:border-red-500 peer-checked:bg-red-500">
-          <span className="w-2 h-2 bg-white rounded-full"></span>
-        </span>
-        <span className="ml-2">Yes</span>
-      </label>
-      <label className="flex items-center">
-        <input
-          type="radio"
-          value="no"
-          checked={!isReraRegistered}
-          onChange={() => setIsReraRegistered(false)}
-          className="peer hidden"
-        />
-        <span className="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:border-red-500 peer-checked:bg-red-500">
-          <span className="w-2 h-2 bg-white rounded-full"></span>
-        </span>
-        <span className="ml-2">No</span>
-      </label>
-    </div>
-  </div>
-
-  {/* RERA Number Section */}
-  {isReraRegistered && (
-    <div className="mt-4">
-      <label className="block text-sm font-medium text-gray-700">
-        RERA Number(s)
-      </label>
-      {reraNumbers.map((num, index) => (
-        <input
-          key={index}
-          type="text"
-          value={num}
-          onChange={(e) => handleReraChange(index, e.target.value)}
-          placeholder="Enter RERA number"
-          className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
-        />
-      ))}
-      <button
-        onClick={addReraField}
-        className="mt-2  mb-4 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm"
-      >
-        Add another RERA number
-      </button>
-    </div>
- )}
-        </div>
-        <GoogleMap/>
-        <div className="mt-4 flex justify-between">
-  {/* Previous Button (Left) */}
-  <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
-    Previous
-  </button>
-
-  {/* Submit Button (Right) */}
-  <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
-    Submit
-  </button>
-</div>
+      <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+        <div className="h-2 bg-red-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
       </div>
-    );
-    
+      <p className="text-right text-sm text-gray-500 mt-1">{Math.round(progress)}% Complete</p>
+
+      <div className="flex justify-between items-center my-4">
+        <h2 className="text-lg font-semibold">Amenities</h2>
+        <button onClick={toggleSelectAll} className="flex items-center space-x-2">
+          {selectedAmenities.length === amenitiesList.length ? (
+            <>
+              <FaCheckCircle className="text-red-500" /> <span>Unselect All</span>
+            </>
+          ) : (
+            <>
+              <FaRegCircle className="text-gray-500" /> <span>Select All</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Responsive Amenities Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        {amenitiesList.map((amenity) => (
+          <button
+            key={amenity}
+            onClick={() => handleAmenityClick(amenity)}
+            className="flex items-center space-x-2 text-left w-full"
+          >
+            {selectedAmenities.includes(amenity) ? (
+              <FaCheckCircle className="text-red-500" />
+            ) : (
+              <FaRegCircle className="text-gray-500" />
+            )}
+            <span className="flex-1">{amenity}</span>
+          </button>
+        ))}
+      </div>
+
+
+      {/* Image Upload Section */}
+      <h2 className="text-xl font-semibold mb-2 mt-6">Images</h2>
+      <label
+        className="border border-gray-300 border-dashed rounded-lg flex flex-col items-center justify-center py-10 cursor-pointer hover:bg-gray-100 w-full"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
+        <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" />
+        <p className="text-gray-500 text-center">Click or drag images here to upload</p>
+      </label>
+
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+      {images.length > 0 && (
+        <div className="mt-6 w-full">
+          <h3 className="text-lg font-semibold">Uploaded Images</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
+            {images.map((image) => (
+              <div key={image.id} className="relative border rounded-lg p-3">
+                {/* Delete Button */}
+                <button
+                  onClick={() => handleDeleteImage(image.id)}
+                  className="absolute top-2 right-2 rounded-full shadow-md p-1 text-gray-700 cursor-pointer"
+                >
+                  ✕
+                </button>
+
+                {/* Image Preview */}
+                <Image
+                  src={image.src}
+                  alt="Uploaded preview"
+                  width={150}
+                  height={150}
+                  className="rounded-md w-full h-32 object-cover"
+                />
+
+                {/* Labels Row */}
+                <div className="flex items-center justify-between mt-2">
+                  <label className="text-sm font-medium text-gray-700 ">Description</label>
+                  <label className="text-sm font-medium text-gray-700">Set Primary</label>
+                </div>
+
+                {/* Input & Toggle Row */}
+                <div className="flex items-center mt-1">
+                  <input
+                    type="text"
+                    placeholder="Write a description..."
+                    value={image.description}
+                    onChange={(e) => handleDescriptionChange(image.id, e.target.value)}
+                    className="w-3/4 border rounded-md p-1 text-sm focus:border-red-500 focus:outline-none"
+                  />
+
+                  <div
+                    className={`relative w-10 h-5 flex items-center rounded-full cursor-pointer transition-all duration-300 ml-2 ${image.isPrimary ? 'bg-red-500' : 'bg-gray-300'
+                      }`}
+                    onClick={() => handleSetPrimary(image.id)}
+                  >
+                    <div
+                      className={`absolute left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-150 ${image.isPrimary ? 'translate-x-5' : ''
+                        }`}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+
+
+      <div className="pt-6 w-full mt-6">
+        {/* YouTube URLs Section */}
+        <label className="block text-sm font-medium text-gray-700">
+          YouTube URLs
+        </label>
+        {youtubeLinks.map((link, index) => (
+          <input
+            key={index}
+            type="text"
+            value={link}
+            onChange={(e) => handleYoutubeChange(index, e.target.value)}
+            placeholder="Enter YouTube link"
+            className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
+          />
+        ))}
+        <button
+          onClick={addYoutubeField}
+          className="mt-2 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm w-full sm:w-auto"
+        >
+          Add another URL
+        </button>
+
+
+        {/* RERA Registration Section */}
+        <div className="mt-4 p-4 border border-gray-300 rounded-md w-full">
+          <label className="block text-sm font-medium text-gray-700">
+            Is the project RERA registered?
+          </label>
+          <div className="mt-2 flex flex-wrap gap-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                value="yes"
+                checked={isReraRegistered}
+                onChange={() => setIsReraRegistered(true)}
+                className="peer hidden"
+              />
+              <span className="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:border-red-500 peer-checked:bg-red-500">
+                <span className="w-2 h-2 bg-white rounded-full"></span>
+              </span>
+              <span className="ml-2">Yes</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                value="no"
+                checked={!isReraRegistered}
+                onChange={() => setIsReraRegistered(false)}
+                className="peer hidden"
+              />
+              <span className="w-4 h-4 border border-gray-400 rounded-full flex items-center justify-center peer-checked:border-red-500 peer-checked:bg-red-500">
+                <span className="w-2 h-2 bg-white rounded-full"></span>
+              </span>
+              <span className="ml-2">No</span>
+            </label>
+          </div>
+        </div>
+
+        {/* RERA Number Section */}
+        {isReraRegistered && (
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              RERA Number(s)
+            </label>
+            {reraNumbers.map((num, index) => (
+              <input
+                key={index}
+                type="text"
+                value={num}
+                onChange={(e) => handleReraChange(index, e.target.value)}
+                placeholder="Enter RERA number"
+                className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
+              />
+            ))}
+            <button
+              onClick={addReraField}
+              className="mt-2  mb-4 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm"
+            >
+              Add another RERA number
+            </button>
+          </div>
+        )}
+      </div>
+      <GoogleMap />
+      <div className="mt-4 flex justify-between">
+        {/* Previous Button (Left) */}
+        <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
+          Previous
+        </button>
+
+        {/* Submit Button (Right) */}
+        <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
+          Submit
+        </button>
+      </div>
+    </div>
+  );
+
 }

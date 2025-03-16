@@ -41,7 +41,7 @@ export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps)
 
   return (
     <>
-      {/* Mobile Sidebar Toggle Button */}
+
       <button
         className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded z-50"
         onClick={() => setSidebarOpen(!isSidebarOpen)}
@@ -128,7 +128,7 @@ export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps)
                       <span>Developer2</span>
                     </Link>
                   </li>
-                  </ul>
+                </ul>
               )}
             </li>
 
@@ -162,8 +162,8 @@ export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps)
                 </ul>
               )}
             </li>
-                 {/* Other Links */}
-                 <li>
+
+            <li>
               <Link href="/leads" className="flex items-center space-x-2">
                 <Home size={20} />
                 <span>Property</span>
@@ -176,7 +176,7 @@ export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps)
               </Link>
             </li>
 
-            {/* Other Links */}
+
             <li>
               <Link href="/leads" className="flex items-center space-x-2">
                 <Activity size={20} />
@@ -222,7 +222,7 @@ export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps)
           </ul>
         </nav>
       </aside>
-      </>
+    </>
   );
 }
 
