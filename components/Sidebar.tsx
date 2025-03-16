@@ -20,57 +20,62 @@ import {
   FileText,
 } from "lucide-react";
 
-export default function Sidebar() {
 
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+interface SidebarProps {
+  isSidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Sidebar({ isSidebarOpen, setSidebarOpen }: SidebarProps) {
   const [isProjectOpen, setProjectOpen] = useState(false);
-const [isDeveloperOpen, setDeveloperOpen] = useState(false);
+  const [isDeveloperOpen, setDeveloperOpen] = useState(false);
 
-const handleToggle = (section: string) => {
-  if (section === "developer") {
-    setDeveloperOpen((prev) => !prev);
-  } else if (section === "project") {
-    setProjectOpen((prev) => !prev);
-  }
-};
+  const handleToggle = (section: string) => {
+    if (section === "developer") {
+      setDeveloperOpen((prev) => !prev);
+    } else if (section === "project") {
+      setProjectOpen((prev) => !prev);
+    }
+  };
 
-return (
-  <>
-    {/* Mobile Sidebar Toggle Button */}
-    <button
-      className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded z-50"
-      onClick={() => setSidebarOpen(!isSidebarOpen)}
-    >
-      {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
-    </button>
+  return (
+    <>
+      {/* Mobile Sidebar Toggle Button */}
+      <button
+        className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded z-50"
+        onClick={() => setSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
 
-    {/* Sidebar */}
-    <aside
-      className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg p-4 transform transition-transform duration-300
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-        md:relative md:translate-x-0 md:w-20 lg:w-64`}
-    >
-      {/* Branding */}
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="w-10 h-10 bg-red-500 text-white flex items-center justify-center rounded-full text-lg font-bold">
-          HM
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full w-64 bg-gray-200 shadow-lg p-4 transform transition-transform duration-300
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+          md:relative md:translate-x-0 md:w-20 lg:w-64`}
+      >
+        {/* Branding */}
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="w-10 h-10 bg-red-500 text-white flex items-center justify-center rounded-full text-lg font-bold">
+            HM
+          </div>
+          <div className="hidden md:block">
+            <h2 className="text-lg font-semibold">Housing Mantra</h2>
+            <p className="text-sm text-gray-500">Super Admin</p>
+          </div>
         </div>
-        <div className="hidden md:block">
-          <h2 className="text-lg font-semibold">Housing Mantra</h2>
-          <p className="text-sm text-gray-500">Super Admin</p>
-        </div>
-      </div>
 
-      {/* Navigation */}
-      <nav>
-        <ul className="space-y-3">
-          <li>
-            <Link href="/stats" className="flex items-center space-x-2">
-              <BarChart size={20} />
-              <span className="hidden md:inline">Stats</span>
-            </Link>
-          </li>
-       
+        {/* Navigation */}
+        <nav>
+          <ul className="space-y-3">
+            <li>
+              <Link href="/stats" className="flex items-center space-x-2">
+                <BarChart size={20} />
+                <span className="hidden md:inline">Stats</span>
+              </Link>
+            </li>
+
             <li>
               <Link href="/admin" className="flex items-center space-x-2">
                 <User size={20} />
@@ -123,7 +128,7 @@ return (
                       <span>Developer2</span>
                     </Link>
                   </li>
-                </ul>
+                  </ul>
               )}
             </li>
 
@@ -220,3 +225,4 @@ return (
       </>
   );
 }
+

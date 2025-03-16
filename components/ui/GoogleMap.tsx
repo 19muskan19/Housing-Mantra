@@ -7,6 +7,7 @@ import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
+
 const defaultIcon = new L.Icon({
   iconUrl: markerIcon.src,
   shadowUrl: markerShadow.src,
@@ -61,78 +62,82 @@ const GoogleMap = () => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md mx-auto p-6 max-w-4xl">
-      <div className="grid grid-cols-2 gap-4">
-        {/* Landmark Selection */}
-        <div className="flex flex-col">
-          <label className="font-semibold mb-1">Landmark</label>
-          <select
-            value={selectedLandmark}
-            onChange={handleLandmarkChange}
-            className="p-2 border rounded"
-          >
-            {landmarks.map((landmark, index) => (
-              <option key={index} value={landmark.name}>
-                {landmark.name}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="rounded-lg shadow-md mx-auto p-6 max-w-4xl mt-3">
+     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {/* Landmark Selection */}
+  <div className="flex flex-col">
+    <label className="font-semibold mb-1">Landmark</label>
+    <select
+      value={selectedLandmark}
+      onChange={handleLandmarkChange}
+      className="p-2 border rounded"
+    >
+      {landmarks.map((landmark, index) => (
+        <option key={index} value={landmark.name}>
+          {landmark.name}
+        </option>
+      ))}
+    </select>
+  </div>
 
-        {/* Distance Input */}
-        <div className="flex flex-col">
-          <label className="font-semibold mb-1">Distance</label>
-          <input
-            type="text"
-            value={distance}
-            onChange={(e) => setDistance(e.target.value)}
-            placeholder="e.g., 3 km"
-            className="p-2 border rounded"
-          />
-        </div>
-      </div>
+  {/* Distance Input */}
+  <div className="flex flex-col">
+    <label className="font-semibold mb-1">Distance</label>
+    <input
+      type="text"
+      value={distance}
+      onChange={(e) => setDistance(e.target.value)}
+      placeholder="e.g., 3 km"
+      className="p-2 border rounded"
+    />
+  </div>
+</div>
 
-      {/* Description Input */}
-      <div className="mt-4">
-        <label className="font-semibold mb-1 block">Description</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="p-2 border rounded w-full"
-        />
-      </div>
+<div className="mt-4">
+  <label className="font-semibold mb-1 block">Description</label>
+  <textarea
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+    placeholder="Enter description..."
+    className="p-2 border border-gray-300 rounded-lg  w-full focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-red-300 focus:border-red-300 "
+  />
+</div>
+
+
+
 
       {/* Latitude & Longitude */}
-      <div className="grid grid-cols-2 gap-4 mt-4">
-        <div className="flex flex-col">
-          <label className="font-semibold mb-1">Latitude</label>
-          <input
-            type="text"
-            value={coordinates.latitude.toFixed(6)}
-            readOnly
-            className="p-2 border rounded bg-gray-100"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-semibold mb-1">Longitude</label>
-          <input
-            type="text"
-            value={coordinates.longitude.toFixed(6)}
-            readOnly
-            className="p-2 border rounded bg-gray-100"
-          />
-        </div>
-      </div>
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+  <div className="flex flex-col">
+    <label className="font-semibold mb-1">Latitude</label>
+    <input
+      type="text"
+      value={coordinates.latitude.toFixed(6)}
+      readOnly
+      className="p-2 border rounded bg-gray-100"
+    />
+  </div>
+  <div className="flex flex-col">
+    <label className="font-semibold mb-1">Longitude</label>
+    <input
+      type="text"
+      value={coordinates.longitude.toFixed(6)}
+      readOnly
+      className="p-2 border rounded bg-gray-100"
+    />
+  </div>
+</div>
 
       {/* Save Button */}
-      <div className="mt-4">
-        <button
-          onClick={handleSaveLocation}
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-        >
-          Save Location
-        </button>
-      </div>
+      <div className="mt-4 text-right">
+  <button
+    onClick={handleSaveLocation}
+    className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+  >
+    Save Location
+  </button>
+</div>
+
 
       {/* OpenStreetMap (Leaflet) */}
       <div className="mt-6">

@@ -97,7 +97,7 @@ const FormComponent = () => {
           ))}
           <button
             onClick={addReraField}
-            className="mt-2 px-3 py-2 bg-green-500 text-white rounded w-full sm:w-auto"
+            className="mt-2 px-3 py-2 text-white rounded w-full sm:w-auto"
           >
             Add another RERA number
           </button>

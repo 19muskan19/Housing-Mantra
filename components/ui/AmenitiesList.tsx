@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import FormComponent from "./FormComponent";
-import ToggleSwitch from "./toggleSwitch";
+
 import { FaCheckCircle, FaRegCircle } from "react-icons/fa"; // Import icons
-import GoogleMap from "./GoogleMap";
+
+import dynamic from "next/dynamic";
+
+const GoogleMap = dynamic(() => import("@/components/ui/GoogleMap"), { ssr: false });
 
 
 interface UploadedImage {
@@ -162,20 +164,25 @@ export default function AmenitiesUploader() {
             )}
           </button>
         </div>
-    
-        {/* Responsive Amenities Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {amenitiesList.map((amenity) => (
-            <button key={amenity} onClick={() => handleAmenityClick(amenity)} className="flex items-center space-x-2">
-              {selectedAmenities.includes(amenity) ? (
-                <FaCheckCircle className="text-red-500" />
-              ) : (
-                <FaRegCircle className="text-gray-500" />
-              )}
-              <span>{amenity}</span>
-            </button>
-          ))}
-        </div>
+   {/* Responsive Amenities Grid */}
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+  {amenitiesList.map((amenity) => (
+    <button
+      key={amenity}
+      onClick={() => handleAmenityClick(amenity)}
+      className="flex items-center space-x-2 text-left w-full"
+    >
+      {selectedAmenities.includes(amenity) ? (
+        <FaCheckCircle className="text-red-500" />
+      ) : (
+        <FaRegCircle className="text-gray-500" />
+      )}
+      <span className="flex-1">{amenity}</span>
+    </button>
+  ))}
+</div>
+
+
     
         {/* Image Upload Section */}
         <h2 className="text-xl font-semibold mb-2 mt-6">Images</h2>
@@ -185,7 +192,7 @@ export default function AmenitiesUploader() {
           onDrop={handleDrop}
         >
           <input type="file" multiple accept="image/*" onChange={handleImageUpload} className="hidden" />
-          <p className="text-gray-500">Click or drag images here to upload</p>
+          <p className="text-gray-500 text-center">Click or drag images here to upload</p>
         </label>
     
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
@@ -236,10 +243,10 @@ export default function AmenitiesUploader() {
               onClick={() => handleSetPrimary(image.id)}
             >
               <div 
-                className={`absolute left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-300 ${
-                  image.isPrimary ? 'translate-x-5' : ''
-                }`}
-              ></div>
+  className={`absolute left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-150 ${
+    image.isPrimary ? 'translate-x-5' : ''
+  }`}
+></div>
             </div>
           </div>
         </div>
@@ -253,24 +260,25 @@ export default function AmenitiesUploader() {
 <div className="pt-6 w-full mt-6">
   {/* YouTube URLs Section */}
   <label className="block text-sm font-medium text-gray-700">
-    YouTube URLs
-  </label>
-  {youtubeLinks.map((link, index) => (
-    <input
-      key={index}
-      type="text"
-      value={link}
-      onChange={(e) => handleYoutubeChange(index, e.target.value)}
-      placeholder="Enter YouTube link"
-      className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
-    />
-  ))}
-  <button
-    onClick={addYoutubeField}
-    className="mt-2 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm"
-  >
-    Add another URL
-  </button>
+  YouTube URLs
+</label>
+{youtubeLinks.map((link, index) => (
+  <input
+    key={index}
+    type="text"
+    value={link}
+    onChange={(e) => handleYoutubeChange(index, e.target.value)}
+    placeholder="Enter YouTube link"
+    className="w-full mt-2 p-2 border rounded-md focus:border-red-500 focus:outline-none"
+  />
+))}
+<button
+  onClick={addYoutubeField}
+  className="mt-2 px-3 py-1 border border-gray-400 rounded-md text-dark text-sm w-full sm:w-auto"
+>
+  Add another URL
+</button>
+
 
   {/* RERA Registration Section */}
   <div className="mt-4 p-4 border border-gray-300 rounded-md w-full">
