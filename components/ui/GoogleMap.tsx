@@ -175,7 +175,12 @@ const GoogleMap = () => {
       </div>
 
 
-      <MapContainer center={[pune.lat, pune.lng]} zoom={13} className="h-[400px] w-full mt-4">
+      <MapContainer
+        center={[pune.lat, pune.lng]}
+        zoom={13}
+        className="relative z-0 h-[400px] w-full mt-4"
+      >
+
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         <MapClickHandler />
