@@ -86,13 +86,13 @@ export default function AmenitiesUploader() {
     const files = event.dataTransfer.files;
     if (!files || files.length === 0) return;
 
-    const newImages = Array.from(files).map((file) => {
+    const newImages = Array.from(files).map((file, index) => {
       const fileUrl = URL.createObjectURL(file);
       return {
         id: fileUrl,
         src: fileUrl,
         description: "",
-        isPrimary: images.length === 0,
+        isPrimary: images.length === 0 && index === 0, // Ensure first image is primary
       };
     });
 
@@ -134,10 +134,13 @@ export default function AmenitiesUploader() {
   };
 
   const handleSetPrimary = (id: string) => {
-    setImages((prevImages) =>
-      prevImages.map((img) => ({ ...img, isPrimary: img.id === id }))
-    );
+    setImages((prevImages) => {
+      return prevImages.map((img) =>
+        img.id === id ? { ...img, isPrimary: true } : { ...img, isPrimary: false }
+      );
+    });
   };
+
 
 
   return (
@@ -165,7 +168,7 @@ export default function AmenitiesUploader() {
         </button>
       </div>
 
-      {/* Responsive Amenities Grid */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {amenitiesList.map((amenity) => (
           <button
@@ -183,8 +186,6 @@ export default function AmenitiesUploader() {
         ))}
       </div>
 
-
-      {/* Image Upload Section */}
       <h2 className="text-xl font-semibold mb-2 mt-6">Images</h2>
       <label
         className="border border-gray-300 border-dashed rounded-lg flex flex-col items-center justify-center py-10 cursor-pointer hover:bg-gray-100 w-full"
@@ -203,15 +204,14 @@ export default function AmenitiesUploader() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
             {images.map((image) => (
               <div key={image.id} className="relative border rounded-lg p-3">
-                {/* Delete Button */}
+                {/* Delete Button - Positioned Outside */}
                 <button
                   onClick={() => handleDeleteImage(image.id)}
-                  className="absolute top-2 right-2 rounded-full shadow-md p-1 text-gray-700 cursor-pointer"
+                  className="absolute top-[-10px] right-[-10px] rounded-full bg-white shadow-lg p-2 text-black cursor-pointer"
                 >
                   ✕
                 </button>
 
-                {/* Image Preview */}
                 <Image
                   src={image.src}
                   alt="Uploaded preview"
@@ -220,13 +220,11 @@ export default function AmenitiesUploader() {
                   className="rounded-md w-full h-32 object-cover"
                 />
 
-                {/* Labels Row */}
                 <div className="flex items-center justify-between mt-2">
-                  <label className="text-sm font-medium text-gray-700 ">Description</label>
+                  <label className="text-sm font-medium text-gray-700">Description</label>
                   <label className="text-sm font-medium text-gray-700">Set Primary</label>
                 </div>
 
-                {/* Input & Toggle Row */}
                 <div className="flex items-center mt-1">
                   <input
                     type="text"
@@ -252,9 +250,6 @@ export default function AmenitiesUploader() {
           </div>
         </div>
       )}
-
-
-
       <div className="pt-6 w-full mt-6">
         {/* YouTube URLs Section */}
         <label className="block text-sm font-medium text-gray-700">
@@ -277,8 +272,6 @@ export default function AmenitiesUploader() {
           Add another URL
         </button>
 
-
-        {/* RERA Registration Section */}
         <div className="mt-4 p-4 border border-gray-300 rounded-md w-full">
           <label className="block text-sm font-medium text-gray-700">
             Is the project RERA registered?
@@ -313,7 +306,6 @@ export default function AmenitiesUploader() {
           </div>
         </div>
 
-        {/* RERA Number Section */}
         {isReraRegistered && (
           <div className="mt-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -340,13 +332,11 @@ export default function AmenitiesUploader() {
       </div>
       <GoogleMap />
       <div className="mt-4 flex justify-between">
-        {/* Previous Button (Left) */}
-        <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
+
+        <button className="cursor-pointer bg-red-300 p-2 rounded hover:bg-red-400">
           Previous
         </button>
-
-        {/* Submit Button (Right) */}
-        <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red">
+        <button className="cursor-pointer bg-red-500 text-white p-2 rounded hover:bg-red-600">
           Submit
         </button>
       </div>

@@ -44,12 +44,12 @@ const FormComponent = () => {
         ))}
         <button
           onClick={addYoutubeField}
-          className="mt-2 px-3 py-2 bg-blue-500 text-white rounded w-full sm:w-auto"
+          className="mt-2 px-3 py-2 bg-blue-500 text-white rounded w-full sm:w-auto cursor-pointer"
         >
           Add another URL
         </button>
       </div>
-  
+
       {/* RERA Registration Section */}
       <div className="mt-6 flex flex-col gap-2">
         <label className="text-sm font-medium text-gray-700">
@@ -78,7 +78,7 @@ const FormComponent = () => {
           </label>
         </div>
       </div>
-  
+
       {/* RERA Number Section */}
       {isReraRegistered && (
         <div className="mt-6 flex flex-col gap-2">
@@ -97,15 +97,16 @@ const FormComponent = () => {
           ))}
           <button
             onClick={addReraField}
-            className="mt-2 px-3 py-2 text-white rounded w-full sm:w-auto"
+            className="mt-2 px-3 py-2 text-white rounded w-full sm:w-auto cursor-pointer"
           >
             Add another RERA number
           </button>
+
         </div>
       )}
     </div>
   );
-  
+
 };
 
 export default FormComponent;
